@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-soup-dark text-white">
+    <nav className="bg-soup-dark text-gray-600">
       <div className="flex justify-between items-center px-4 md:px-8 lg:px-16 py-4">
         <div className="w-1/4 hidden md:block">
           <Logo />
@@ -76,21 +76,21 @@ const Navbar: React.FC = () => {
             <div key={item.title} className="relative dropdown group">
               <Link 
                 to={item.link} 
-                className="text-white hover:text-soup-gold transition-colors flex items-center"
+                className="text-gray-600 hover:text-black transition-colors flex items-center text-sm font-medium"
               >
                 {item.title}
                 {item.hasDropdown && (
-                  <ChevronDown className="h-4 w-4 ml-1" />
+                  <ChevronDown className="h-3 w-3 ml-1 opacity-50" />
                 )}
               </Link>
               
               {item.hasDropdown && (
-                <div className="dropdown-content">
+                <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg py-2 min-w-[150px] z-50">
                   {item.dropdownItems?.map((dropdownItem) => (
                     <Link 
                       key={dropdownItem.title}
                       to={dropdownItem.link}
-                      className="dropdown-item"
+                      className="block px-4 py-2 text-sm text-gray-600 hover:text-black hover:bg-gray-50"
                     >
                       {dropdownItem.title}
                     </Link>
@@ -101,26 +101,23 @@ const Navbar: React.FC = () => {
           ))}
         </div>
         
-        <div className="flex items-center justify-end w-1/4">
-          <div className="relative mr-4">
-            <button 
-              className="border border-white px-6 py-2 hover:bg-white hover:text-soup-dark transition-colors"
-              onClick={() => {}}
-            >
-              ORDER
-            </button>
-          </div>
+        <div className="flex items-center justify-end w-1/4 space-x-6">
+          <button 
+            className="border border-gray-600 px-6 py-2 text-gray-600 hover:bg-gray-600 hover:text-white transition-colors text-sm font-medium"
+          >
+            ORDER
+          </button>
           
-          <div className="relative">
+          <div className="flex items-center">
             <button onClick={toggleCart} className="relative flex items-center">
-              <ShoppingCart className="h-6 w-6" />
+              <ShoppingCart className="h-5 w-5 text-gray-600" />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <span className="ml-2">${totalPrice.toFixed(2)}</span>
+            <span className="ml-2 text-gray-600">${totalPrice.toFixed(2)}</span>
             {cartOpen && <CartDropdown />}
           </div>
         </div>
