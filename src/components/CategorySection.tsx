@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -16,9 +15,9 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, children, imag
   };
 
   return (
-    <section className="mb-16">
+    <section className="mb-8">
       <div 
-        className="w-full h-80 bg-center bg-cover relative mb-8 flex items-center justify-center"
+        className="max-w-6xl mx-auto w-full h-48 bg-center bg-cover relative mb-8 flex items-center justify-center"
         style={{ backgroundImage: `url(${imageUrl})` }}
       >
         <div className="absolute inset-0 bg-black opacity-30"></div>
@@ -34,7 +33,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, children, imag
       </div>
       
       {isOpen && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto bg-white rounded-lg border px-8 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {children}
         </div>
       )}

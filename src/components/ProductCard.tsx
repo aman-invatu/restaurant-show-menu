@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useCart } from '../context/CartContext';
@@ -39,22 +38,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
   
   return (
-    <div className="bg-white">
-      <div className="h-60 overflow-hidden">
+    <div className="bg-white border rounded-lg shadow-sm overflow-hidden flex flex-col">
+      <div className="h-48 overflow-hidden">
         <img 
           src={imageUrl} 
           alt={name} 
           className="w-full h-full object-cover transition-transform hover:scale-105"
         />
       </div>
-      <div className="p-4 text-left">
-        <h3 className="text-xl font-medium">{name}</h3>
-        <p className="text-sm text-gray-600 mt-1">{description}</p>
-        <div className="mt-4 flex justify-between items-center">
-          <p className="text-gray-700">from <span className="font-medium">${price.toFixed(2)}</span></p>
+      <div className="p-6 text-left flex flex-col flex-1">
+        <h3 className="text-lg font-semibold mb-1">{name}</h3>
+        <p className="text-sm text-gray-600 mb-4">{description}</p>
+        <div className="mt-auto flex justify-between items-center">
+          <p className="text-gray-700 text-base">from <span className="font-medium">${price.toFixed(2)}</span></p>
           <button 
             onClick={handleAddToCart}
-            className="border border-gray-800 px-4 py-2 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors"
+            className="border border-gray-800 px-4 py-2 text-gray-800 text-sm rounded hover:bg-gray-800 hover:text-white transition-colors"
           >
             ADD TO CART
           </button>
