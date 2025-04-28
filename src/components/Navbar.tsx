@@ -65,32 +65,32 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-soup-dark text-gray-600">
+    <nav className="bg-white border-b border-gray-200">
       <div className="flex justify-between items-center px-4 md:px-8 lg:px-16 py-4">
         <div className="w-1/4 hidden md:block">
           <Logo />
         </div>
         
-        <div className="hidden md:flex justify-center space-x-8 flex-1">
+        <div className="hidden md:flex justify-center space-x-12 flex-1">
           {navItems.map((item) => (
             <div key={item.title} className="relative dropdown group">
               <Link 
                 to={item.link} 
-                className="text-gray-600 hover:text-black transition-colors flex items-center text-sm font-medium"
+                className="text-gray-700 hover:text-black transition-colors flex items-center text-[15px] font-medium"
               >
                 {item.title}
                 {item.hasDropdown && (
-                  <ChevronDown className="h-3 w-3 ml-1 opacity-50" />
+                  <ChevronDown className="h-4 w-4 ml-1 opacity-70" />
                 )}
               </Link>
               
               {item.hasDropdown && (
-                <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg py-2 min-w-[150px] z-50">
+                <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-none py-2 min-w-[200px] z-50 border border-gray-100">
                   {item.dropdownItems?.map((dropdownItem) => (
                     <Link 
                       key={dropdownItem.title}
                       to={dropdownItem.link}
-                      className="block px-4 py-2 text-sm text-gray-600 hover:text-black hover:bg-gray-50"
+                      className="block px-6 py-2 text-[15px] text-gray-600 hover:text-black hover:bg-gray-50"
                     >
                       {dropdownItem.title}
                     </Link>
@@ -101,23 +101,24 @@ const Navbar: React.FC = () => {
           ))}
         </div>
         
-        <div className="flex items-center justify-end w-1/4 space-x-6">
-          <button 
-            className="border border-gray-600 px-6 py-2 text-gray-600 hover:bg-gray-600 hover:text-white transition-colors text-sm font-medium"
+        <div className="flex items-center justify-end w-1/4 space-x-8">
+          <Link
+            to="/order" 
+            className="border border-gray-800 px-8 py-2 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors text-sm font-medium"
           >
             ORDER
-          </button>
+          </Link>
           
           <div className="flex items-center">
             <button onClick={toggleCart} className="relative flex items-center">
-              <ShoppingCart className="h-5 w-5 text-gray-600" />
+              <ShoppingCart className="h-5 w-5 text-gray-700" />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
-            <span className="ml-2 text-gray-600">${totalPrice.toFixed(2)}</span>
+            <span className="ml-3 text-gray-800 font-medium">${totalPrice.toFixed(2)}</span>
             {cartOpen && <CartDropdown />}
           </div>
         </div>
