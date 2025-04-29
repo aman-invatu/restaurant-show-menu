@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import Navbar from '@/components/layout/Navbar';
@@ -94,7 +93,7 @@ const MenuList: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('burgers');
   const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem: addToCart } = useCart();
 
   const handleItemClick = (item: MenuItem) => {
     setSelectedProduct(item);
@@ -107,8 +106,7 @@ const MenuList: React.FC = () => {
       id: item.id,
       name: item.name,
       price: item.price,
-      quantity: 1,
-      image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
+      quantity: 1
     });
   };
 
@@ -187,7 +185,7 @@ const MenuList: React.FC = () => {
             name: selectedProduct.name,
             price: selectedProduct.price,
             description: selectedProduct.description,
-            image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
+            imageUrl: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
           }}
           addToCart={(quantity, options) => {
             addToCart({
@@ -196,7 +194,6 @@ const MenuList: React.FC = () => {
               price: selectedProduct.price,
               quantity,
               options,
-              image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
             });
             setDialogOpen(false);
             toast.success(`${selectedProduct.name} added to cart`);
