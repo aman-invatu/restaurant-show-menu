@@ -37,9 +37,8 @@ const navItems: NavItem[] = [
     link: '/menu',
     hasDropdown: true,
     dropdownItems: [
-      { title: 'Burgers', link: '/menu#burgers' },
-      { title: 'Pizza', link: '/menu#pizza' },
-      { title: 'Drinks', link: '/menu#drinks' }
+      { title: 'LIST', link: '/menu#burgers' },
+      { title: 'GRID', link: '/menu#pizza' },
     ]
   },
   { title: 'OFFERS', link: '/offers' },
