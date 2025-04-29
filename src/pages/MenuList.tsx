@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'sonner';
+import ProductDialog from '@/components/products/ProductDialog';
 
 interface MenuItem {
   id: string;
@@ -11,6 +12,14 @@ interface MenuItem {
   description: string;
   price: number;
   category: string;
+}
+
+interface ProductWithImage {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
 }
 
 const menuItems: MenuItem[] = [
@@ -210,9 +219,27 @@ const categoryImages = {
 
 const MenuList: React.FC = () => {
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductWithImage | null>(null);
 
   const scrollToSection = (categoryId: string) => {
     sectionRefs.current[categoryId]?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const openDialog = (product: MenuItem) => {
+    const productWithImage: ProductWithImage = {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: categoryImages[product.category as keyof typeof categoryImages] || ''
+    };
+    setSelectedProduct(productWithImage);
+    setDialogOpen(true);
+  };
+  
+  const closeDialog = () => {
+    setDialogOpen(false);
   };
 
   return (
@@ -288,6 +315,7 @@ const MenuList: React.FC = () => {
                             <Button 
                               variant="outline" 
                               className="border border-gray-300 text-gray-600 hover:border-gray-400 transition-colors h-8 text-xs px-6 rounded"
+                              onClick={() => openDialog(item)}
                             >
                               ADD TO CART
                             </Button>
@@ -303,6 +331,14 @@ const MenuList: React.FC = () => {
       </div>
 
       <Footer />
+      
+      {selectedProduct && (
+        <ProductDialog 
+          open={dialogOpen} 
+          onClose={closeDialog} 
+          product={selectedProduct}
+        />
+      )}
     </div>
   );
 };
