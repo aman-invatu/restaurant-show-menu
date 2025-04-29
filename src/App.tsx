@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Index from "./pages/Index";
 import MenuList from "./pages/MenuList";
 import MenuGrid from "./pages/MenuGrid";
+import Offers from "./pages/Offers";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +28,7 @@ const App = () => (
             <Route path="/order" element={<Home />} />
             <Route path="/menu-list" element={<MenuList />} />
             <Route path="/menu-grid" element={<MenuGrid />} />
+            <Route path="/offers" element={<Offers />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

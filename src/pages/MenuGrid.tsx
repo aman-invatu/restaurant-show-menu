@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,9 +20,9 @@ type Category = {
 };
 
 const MenuGrid: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('burgers');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   
   // Menu categories and items data
   const categories: Category[] = [
@@ -32,45 +31,46 @@ const MenuGrid: React.FC = () => {
       name: 'BURGERS',
       items: [
         {
-          id: 'beef-burger',
-          name: 'Beef Burger',
-          description: 'Beef, cheese, potato, onion, fries',
+          id: 'classic-burger',
+          name: 'Classic Burger',
+          description: 'Beef patty, lettuce, tomato, onion, special sauce',
           price: 9.00,
-          imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd'
         },
         {
-          id: 'broccoli',
-          name: 'Broccoli',
-          description: 'Beef, cheese, potato, onion, fries',
-          price: 9.00,
-          imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          id: 'cheese-burger',
+          name: 'Cheese Burger',
+          description: 'Beef patty with melted cheddar cheese',
+          price: 10.00,
+          imageUrl: 'https://images.unsplash.com/photo-1550317138-10000687a72b'
         },
         {
-          id: 'chicken-burger',
-          name: 'Chicken Burger',
-          description: 'Beef, cheese, potato, onion, fries',
-          price: 14.00,
-          imageUrl: 'https://images.unsplash.com/photo-1536510233921-8e5043fce771?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-        }
-      ]
-    },
-    {
-      id: 'pasta',
-      name: 'PASTA',
-      items: [
-        {
-          id: 'creste-di-galli',
-          name: 'Creste di Galli',
-          description: 'Beef, cheese, potato, onion, fries',
-          price: 13.00,
-          imageUrl: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-        },
-        {
-          id: 'spaghetti',
-          name: 'Spaghetti',
-          description: 'Tomato sauce, basil, olive oil',
+          id: 'bacon-burger',
+          name: 'Bacon Burger',
+          description: 'Beef patty with crispy bacon and cheese',
           price: 12.00,
-          imageUrl: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          imageUrl: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b'
+        },
+        {
+          id: 'mushroom-burger',
+          name: 'Mushroom Burger',
+          description: 'Beef patty with sautéed mushrooms',
+          price: 11.00,
+          imageUrl: 'https://images.unsplash.com/photo-1549611016-3a70d82b5040'
+        },
+        {
+          id: 'double-burger',
+          name: 'Double Burger',
+          description: 'Double beef patty with double cheese',
+          price: 14.00,
+          imageUrl: 'https://images.unsplash.com/photo-1607013251379-e6eecfffe234'
+        },
+        {
+          id: 'veggie-burger',
+          name: 'Veggie Burger',
+          description: 'Plant-based patty with fresh vegetables',
+          price: 10.00,
+          imageUrl: 'https://images.unsplash.com/photo-1525059696034-4967a8e1dca2'
         }
       ]
     },
@@ -81,16 +81,92 @@ const MenuGrid: React.FC = () => {
         {
           id: 'margherita',
           name: 'Margherita',
-          description: 'Tomato sauce, mozzarella, basil',
-          price: 10.00,
-          imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          description: 'Fresh tomato sauce, mozzarella, basil',
+          price: 12.00,
+          imageUrl: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca'
         },
         {
           id: 'pepperoni',
           name: 'Pepperoni',
           description: 'Tomato sauce, mozzarella, pepperoni',
+          price: 14.00,
+          imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e'
+        },
+        {
+          id: 'quattro-formaggi',
+          name: 'Quattro Formaggi',
+          description: 'Four cheese blend pizza',
+          price: 15.00,
+          imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591'
+        },
+        {
+          id: 'vegetarian',
+          name: 'Vegetarian',
+          description: 'Mixed vegetables with fresh herbs',
+          price: 13.00,
+          imageUrl: 'https://images.unsplash.com/photo-1511689660979-10d2b1aada49'
+        },
+        {
+          id: 'bbq-chicken',
+          name: 'BBQ Chicken',
+          description: 'BBQ sauce, chicken, red onions',
+          price: 15.00,
+          imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38'
+        },
+        {
+          id: 'supreme',
+          name: 'Supreme',
+          description: 'Loaded with meat and vegetables',
+          price: 16.00,
+          imageUrl: 'https://images.unsplash.com/photo-1544982503-9f984c14501a'
+        }
+      ]
+    },
+    {
+      id: 'pasta',
+      name: 'PASTA',
+      items: [
+        {
+          id: 'spaghetti-carbonara',
+          name: 'Spaghetti Carbonara',
+          description: 'Creamy sauce with bacon and parmesan',
+          price: 13.00,
+          imageUrl: 'https://images.unsplash.com/photo-1612874742237-6526221588e3'
+        },
+        {
+          id: 'penne-arrabbiata',
+          name: 'Penne Arrabbiata',
+          description: 'Spicy tomato sauce with garlic',
           price: 12.00,
-          imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          imageUrl: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8'
+        },
+        {
+          id: 'fettuccine-alfredo',
+          name: 'Fettuccine Alfredo',
+          description: 'Creamy parmesan sauce',
+          price: 14.00,
+          imageUrl: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a'
+        },
+        {
+          id: 'lasagna',
+          name: 'Lasagna',
+          description: 'Layered pasta with meat sauce',
+          price: 15.00,
+          imageUrl: 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3'
+        },
+        {
+          id: 'pesto-pasta',
+          name: 'Pesto Pasta',
+          description: 'Fresh basil pesto with pine nuts',
+          price: 13.00,
+          imageUrl: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601'
+        },
+        {
+          id: 'seafood-pasta',
+          name: 'Seafood Pasta',
+          description: 'Mixed seafood in white wine sauce',
+          price: 16.00,
+          imageUrl: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8'
         }
       ]
     },
@@ -99,11 +175,46 @@ const MenuGrid: React.FC = () => {
       name: 'SUSHI',
       items: [
         {
-          id: 'nigiri-sushi',
-          name: 'Nigiri-sushi',
-          description: 'Beef, cheese, potato, onion, fries',
-          price: 13.00,
-          imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          id: 'california-roll',
+          name: 'California Roll',
+          description: 'Crab, avocado, cucumber',
+          price: 12.00,
+          imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c'
+        },
+        {
+          id: 'spicy-tuna',
+          name: 'Spicy Tuna Roll',
+          description: 'Fresh tuna with spicy mayo',
+          price: 14.00,
+          imageUrl: 'https://images.unsplash.com/photo-1611143669185-af224c5e3252'
+        },
+        {
+          id: 'dragon-roll',
+          name: 'Dragon Roll',
+          description: 'Eel, cucumber, avocado',
+          price: 16.00,
+          imageUrl: 'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56'
+        },
+        {
+          id: 'rainbow-roll',
+          name: 'Rainbow Roll',
+          description: 'California roll topped with fish',
+          price: 18.00,
+          imageUrl: 'https://images.unsplash.com/photo-1553621042-f6e147245754'
+        },
+        {
+          id: 'philadelphia-roll',
+          name: 'Philadelphia Roll',
+          description: 'Salmon, cream cheese, cucumber',
+          price: 15.00,
+          imageUrl: 'https://images.unsplash.com/photo-1584583570840-0a3f5ce9f0b6'
+        },
+        {
+          id: 'tempura-roll',
+          name: 'Tempura Roll',
+          description: 'Shrimp tempura, avocado, eel sauce',
+          price: 16.00,
+          imageUrl: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351'
         }
       ]
     },
@@ -112,11 +223,46 @@ const MenuGrid: React.FC = () => {
       name: 'DESSERTS',
       items: [
         {
+          id: 'tiramisu',
+          name: 'Tiramisu',
+          description: 'Coffee-flavored Italian dessert',
+          price: 8.00,
+          imageUrl: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9'
+        },
+        {
+          id: 'chocolate-cake',
+          name: 'Chocolate Cake',
+          description: 'Rich chocolate layer cake',
+          price: 7.00,
+          imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587'
+        },
+        {
+          id: 'cheesecake',
+          name: 'New York Cheesecake',
+          description: 'Classic cheesecake with berry compote',
+          price: 8.00,
+          imageUrl: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad'
+        },
+        {
           id: 'ice-cream',
-          name: 'Ice Cream',
-          description: 'Vanilla, chocolate, strawberry',
-          price: 5.00,
-          imageUrl: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          name: 'Ice Cream Selection',
+          description: 'Assorted flavors of gelato',
+          price: 6.00,
+          imageUrl: 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f'
+        },
+        {
+          id: 'apple-pie',
+          name: 'Apple Pie',
+          description: 'Warm apple pie with vanilla ice cream',
+          price: 7.00,
+          imageUrl: 'https://images.unsplash.com/photo-1568571780765-9276235b0918'
+        },
+        {
+          id: 'creme-brulee',
+          name: 'Crème Brûlée',
+          description: 'Classic French vanilla custard',
+          price: 8.00,
+          imageUrl: 'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3'
         }
       ]
     },
@@ -125,17 +271,54 @@ const MenuGrid: React.FC = () => {
       name: 'DRINKS',
       items: [
         {
-          id: 'cocktail-1',
-          name: 'Berry Blast',
-          description: 'Mixed berries cocktail with ice',
+          id: 'mojito',
+          name: 'Mojito',
+          description: 'Rum, mint, lime, soda',
+          price: 9.00,
+          imageUrl: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87'
+        },
+        {
+          id: 'smoothie',
+          name: 'Berry Smoothie',
+          description: 'Mixed berries with yogurt',
+          price: 6.00,
+          imageUrl: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625'
+        },
+        {
+          id: 'lemonade',
+          name: 'Fresh Lemonade',
+          description: 'House-made with mint',
           price: 5.00,
-          imageUrl: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+          imageUrl: 'https://images.unsplash.com/photo-1437418747212-8d9709afab22'
+        },
+        {
+          id: 'iced-tea',
+          name: 'Peach Iced Tea',
+          description: 'Fresh brewed with peach',
+          price: 5.00,
+          imageUrl: 'https://images.unsplash.com/photo-1499638673689-79a0b5115d87'
+        },
+        {
+          id: 'espresso-martini',
+          name: 'Espresso Martini',
+          description: 'Vodka, coffee liqueur, espresso',
+          price: 11.00,
+          imageUrl: 'https://images.unsplash.com/photo-1545438102-799c3991ffb2'
+        },
+        {
+          id: 'margarita',
+          name: 'Classic Margarita',
+          description: 'Tequila, lime, triple sec',
+          price: 10.00,
+          imageUrl: 'https://images.unsplash.com/photo-1556855810-ac404aa91e85'
         }
       ]
     }
   ];
 
-  const currentCategory = categories.find(cat => cat.id === selectedCategory) || categories[0];
+  const scrollToSection = (categoryId: string) => {
+    sectionRefs.current[categoryId]?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const openDialog = (product: Product) => {
     setSelectedProduct(product);
@@ -146,87 +329,94 @@ const MenuGrid: React.FC = () => {
     setDialogOpen(false);
   };
 
-  // Generate the hero background image based on the selected category
-  const getHeroBackground = (categoryId: string) => {
-    switch(categoryId) {
-      case 'burgers':
-        return 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      case 'pasta':
-        return 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      case 'pizza':
-        return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      case 'sushi':
-        return 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      case 'desserts':
-        return 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      case 'drinks':
-        return 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-      default:
-        return 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80';
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1">
         {/* Hero section */}
-        <div 
-          className="bg-cover bg-center h-64 relative flex items-center justify-center"
-          style={{ backgroundImage: `url(${getHeroBackground(selectedCategory)})` }}
-        >
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-          <h1 className="text-white text-6xl font-light z-10">{currentCategory.name.charAt(0) + currentCategory.name.slice(1).toLowerCase()}</h1>
+        <div className="bg-gray-50 py-10">
+          <div className="container mx-auto text-center">
+            <h1 className="text-[80px] font-extralight text-gray-800 mb-4 tracking-wide">Our Menu</h1>
+            <p className="text-xl text-gray-400 font-light tracking-wider">Discover our delicious selections</p>
+          </div>
         </div>
         
         {/* Main content */}
-        <div className="flex">
-          {/* Side navigation */}
-          <div className="w-1/4 max-w-[300px] bg-gray-900 text-white">
-            <ul className="py-6">
-              {categories.map((category) => (
-                <li key={category.id} className="px-8 py-4 cursor-pointer hover:bg-gray-800 transition-colors">
+        <div className="flex flex-1 relative">
+          {/* Side navigation - Sticky */}
+          <div className="w-[250px] relative ml-[200px]">
+            <div className="sticky top-4 py-8 bg-[#222222] text-white">
+              <div className="flex flex-col">
+                {categories.map((category) => (
                   <button
-                    className={`text-left w-full ${selectedCategory === category.id ? 'text-white' : 'text-gray-300'}`}
-                    onClick={() => setSelectedCategory(category.id)}
+                    key={category.id}
+                    className="px-8 py-4 text-left hover:bg-gray-800 transition-colors text-sm tracking-wider text-gray-300 hover:text-white"
+                    onClick={() => scrollToSection(category.id)}
                   >
                     {category.name}
                   </button>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
           </div>
           
           {/* Product grid */}
-          <div className="flex-1 p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentCategory.items.map((product) => (
-                <div key={product.id} className="flex flex-col">
-                  <div className="h-64 overflow-hidden mb-4">
-                    <img 
-                      src={product.imageUrl} 
-                      alt={product.name} 
-                      className="w-full h-full object-cover"
-                    />
+          <div className="flex-1 px-8 py-4">
+            {categories.map((category) => (
+              <div 
+                key={category.id}
+                ref={el => sectionRefs.current[category.id] = el} 
+                className="mb-16"
+              >
+                {/* Category Header with Banner Image */}
+                <div className="relative h-[200px] mb-8 rounded-lg overflow-hidden">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ 
+                      backgroundImage: `url(${category.items[0].imageUrl})`,
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-black bg-opacity-50"></div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-medium">{product.name}</h3>
-                    <p className="text-gray-500 mt-1">{product.description}</p>
-                  </div>
-                  <div className="flex justify-between items-center mt-4">
-                    <p className="text-gray-700">from <span className="font-medium">${product.price.toFixed(2)}</span></p>
-                    <Button
-                      onClick={() => openDialog(product)}
-                      variant="outline"
-                      className="border border-gray-800 hover:bg-gray-800 hover:text-white uppercase"
-                    >
-                      Add to Cart
-                    </Button>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <h2 className="text-4xl font-light text-white tracking-wider">{category.name}</h2>
                   </div>
                 </div>
-              ))}
-            </div>
+
+                {/* Items Grid - 3 items per row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {category.items.map((product) => (
+                    <div key={product.id} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                      <div className="h-48 overflow-hidden">
+                        <img 
+                          src={product.imageUrl} 
+                          alt={product.name} 
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="text-lg font-medium text-gray-800">{product.name}</h3>
+                        <p className="text-gray-500 text-sm mt-1 h-10">{product.description}</p>
+                        <div className="flex justify-between items-center mt-4">
+                          <p className="text-gray-700">
+                            <span className="text-sm text-gray-500">from </span>
+                            <span className="font-medium">${product.price.toFixed(2)}</span>
+                          </p>
+                          <Button
+                            onClick={() => openDialog(product)}
+                            variant="outline"
+                            className="text-xs px-4 py-1 border-gray-300 hover:bg-gray-800 hover:text-white hover:border-gray-800"
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </main>
