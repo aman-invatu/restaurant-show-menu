@@ -8,7 +8,7 @@ interface CategorySectionProps {
 }
 
 const CategorySection: React.FC<CategorySectionProps> = ({ title, children, imageUrl }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
