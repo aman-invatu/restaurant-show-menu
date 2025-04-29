@@ -370,7 +370,7 @@ const MenuGrid: React.FC = () => {
                 className="mb-16"
               >
                 {/* Category Header with Banner Image */}
-                <div className="relative h-[200px] mb-8 rounded-lg overflow-hidden">
+                <div className="relative h-[200px] mb-4 rounded-lg overflow-hidden">
                   <div 
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ 
@@ -385,7 +385,7 @@ const MenuGrid: React.FC = () => {
                 </div>
 
                 {/* Items Grid - 3 items per row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                   {category.items.map((product) => (
                     <div key={product.id} className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                       <div className="h-48 overflow-hidden">
