@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { useCart } from '@/context/CartContext';
+import { toast } from 'sonner';
+import ProductDialog from '@/components/products/ProductDialog';
 
 interface MenuItem {
   id: string;
@@ -91,22 +92,29 @@ const categories = [
 
 const MenuList: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('burgers');
+  const [selectedProduct, setSelectedProduct] = useState<MenuItem | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const { addToCart } = useCart();
+
+  const handleItemClick = (item: MenuItem) => {
+    setSelectedProduct(item);
+    setDialogOpen(true);
+  };
 
   const handleAddToCart = (item: MenuItem) => {
-    console.log('Added to cart:', item);
-    // Here you would add the item to the cart using your CartContext
+    toast.success(`${item.name} added to cart`);
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+      image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
+    });
   };
 
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-
-      <div className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-5xl font-light text-center text-gray-800 mb-4">Menu List</h1>
-          <p className="text-center text-gray-500 mb-12">Some informations about our restaurant</p>
-        </div>
-      </div>
 
       <div className="flex flex-1">
         {/* Left sidebar */}
@@ -131,9 +139,9 @@ const MenuList: React.FC = () => {
                 className="h-64 bg-cover bg-center flex items-center justify-center"
                 style={{ 
                   backgroundImage: category.id === 'burgers' 
-                    ? 'url(/lovable-uploads/27e88358-35eb-475c-8cae-c1d45d29de0a.png)' 
+                    ? `url(/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png)` 
                     : category.id === 'pasta'
-                    ? 'url(/lovable-uploads/17a2dc46-194c-4469-bf37-f0c1f99d63b1.png)'
+                    ? 'url(/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png)'
                     : 'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(https://source.unsplash.com/random/1200x600/?'+category.id+')'
                 }}
               >
@@ -155,7 +163,7 @@ const MenuList: React.FC = () => {
                         <Button 
                           variant="outline" 
                           className="border border-gray-800 hover:bg-gray-800 hover:text-white transition-colors"
-                          onClick={() => handleAddToCart(item)}
+                          onClick={() => handleItemClick(item)}
                         >
                           ADD TO CART
                         </Button>
@@ -169,6 +177,32 @@ const MenuList: React.FC = () => {
       </div>
 
       <Footer />
+      
+      {selectedProduct && (
+        <ProductDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          product={{
+            id: selectedProduct.id,
+            name: selectedProduct.name,
+            price: selectedProduct.price,
+            description: selectedProduct.description,
+            image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
+          }}
+          addToCart={(quantity, options) => {
+            addToCart({
+              id: selectedProduct.id,
+              name: selectedProduct.name,
+              price: selectedProduct.price,
+              quantity,
+              options,
+              image: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
+            });
+            setDialogOpen(false);
+            toast.success(`${selectedProduct.name} added to cart`);
+          }}
+        />
+      )}
     </div>
   );
 };
