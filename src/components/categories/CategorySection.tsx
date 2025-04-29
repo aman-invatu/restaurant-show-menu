@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -26,18 +25,28 @@ const CategorySection: React.FC<CategorySectionProps> = ({ title, children, imag
           <h2 className="text-6xl font-light text-white tracking-wide">{title}</h2>
           <button 
             onClick={toggleOpen} 
-            className="text-white bg-transparent hover:bg-white/20 rounded-full p-2"
+            className={`text-white bg-transparent hover:bg-white/20 rounded-full p-2 transition-all duration-500 ease-in-out transform ${
+              isOpen ? 'rotate-180 bg-white/10' : ''
+            }`}
           >
-            {isOpen ? <ChevronUp size={28} /> : <ChevronDown size={28} />}
+            <ChevronDown size={28} />
           </button>
         </div>
       </div>
       
-      {isOpen && (
-        <div className="max-w-6xl mx-auto bg-white rounded-lg border px-8 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div 
+        className="max-w-6xl mx-auto overflow-hidden transition-all duration-700 ease-in-out"
+        style={{ 
+          maxHeight: isOpen ? '2000px' : '0',
+          opacity: isOpen ? '1' : '0',
+          transform: `translateY(${isOpen ? '0' : '-20px'})`,
+          marginBottom: isOpen ? '2rem' : '0'
+        }}
+      >
+        <div className="bg-white rounded-lg border px-8 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 transition-transform duration-700 ease-in-out">
           {children}
         </div>
-      )}
+      </div>
     </section>
   );
 };
