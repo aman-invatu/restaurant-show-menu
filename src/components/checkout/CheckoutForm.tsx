@@ -21,14 +21,23 @@ const CheckoutForm: React.FC = () => {
   
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-light mb-4">Checkout</h1>
-        <p className="text-gray-500">Some informations about our restaurant</p>
+      <div className="relative mb-12">
+        <div 
+          className="h-[300px] w-full bg-cover bg-center rounded-lg overflow-hidden"
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1470&auto=format&fit=crop")',
+          }}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white">
+            <h1 className="text-5xl font-light mb-4">Checkout</h1>
+            <p className="text-gray-200">Some informations about our restaurant</p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg">
+          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md">
             <div className="mb-8">
               <h2 className="text-2xl flex items-center mb-6">
                 <FaUser className="text-soup-gold mr-3" /> Basic informations
@@ -99,13 +108,13 @@ const CheckoutForm: React.FC = () => {
                 <label htmlFor="delivery-time" className="block mb-2 text-gray-600">Delivery time:</label>
                 <select 
                   id="delivery-time" 
-                  className="w-full border border-gray-300 p-3 rounded"
+                  className="w-full border border-gray-300 p-3 rounded focus:border-soup-gold focus:ring-1 focus:ring-soup-gold outline-none cursor-pointer appearance-none bg-white"
                   defaultValue="as-soon-as-possible"
                 >
                   <option value="as-soon-as-possible">As fast as possible</option>
-                  <option value="1-hour">Within 1 hour</option>
-                  <option value="2-hours">Within 2 hours</option>
-                  <option value="evening">This evening</option>
+                  <option value="1-hour">In one hour</option>
+                  <option value="2-hours">In two hours</option>
+                  <option value="today">Today</option>
                 </select>
               </div>
             </div>
@@ -114,37 +123,37 @@ const CheckoutForm: React.FC = () => {
               <h2 className="text-2xl flex items-center mb-6">
                 <FaCreditCard className="text-soup-gold mr-3" /> Payment
               </h2>
-              <div className="space-y-4">
-                <div className="flex items-center">
+              <div className="flex space-x-8">
+                <div className="flex items-center bg-gray-50 px-6 py-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input 
                     type="radio" 
                     id="paypal" 
                     name="payment" 
                     value="paypal" 
-                    className="mr-3 h-4 w-4"
+                    className="mr-3 h-4 w-4 text-soup-gold focus:ring-soup-gold cursor-pointer accent-[#D4AF37]"
                   />
-                  <label htmlFor="paypal">PayPal</label>
+                  <label htmlFor="paypal" className="cursor-pointer">PayPal</label>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center bg-gray-50 px-6 py-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input 
                     type="radio" 
                     id="credit-card" 
                     name="payment" 
                     value="credit-card" 
-                    className="mr-3 h-4 w-4"
+                    className="mr-3 h-4 w-4 text-soup-gold focus:ring-soup-gold cursor-pointer accent-[#D4AF37]"
                   />
-                  <label htmlFor="credit-card">Credit Card</label>
+                  <label htmlFor="credit-card" className="cursor-pointer">Credit Card</label>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center bg-gray-50 px-6 py-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors">
                   <input 
                     type="radio" 
                     id="cash" 
                     name="payment" 
                     value="cash" 
-                    className="mr-3 h-4 w-4"
+                    className="mr-3 h-4 w-4 text-soup-gold focus:ring-soup-gold cursor-pointer accent-[#D4AF37]"
                     defaultChecked
                   />
-                  <label htmlFor="cash">Cash</label>
+                  <label htmlFor="cash" className="cursor-pointer">Cash</label>
                 </div>
               </div>
             </div>
