@@ -4,7 +4,6 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'sonner';
-import ProductDialog from '@/components/products/ProductDialog';
 
 interface MenuItem {
   id: string;
@@ -304,31 +303,6 @@ const MenuList: React.FC = () => {
       </div>
 
       <Footer />
-{/*       
-      {selectedProduct && (
-        <ProductDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          product={{
-            id: selectedProduct.id,
-            name: selectedProduct.name,
-            price: selectedProduct.price,
-            description: selectedProduct.description,
-            imageUrl: `/lovable-uploads/e073095f-27e5-4b45-b326-fa417f46d40f.png`
-          }}
-          addToCart={(quantity, options) => {
-            addToCart({
-              id: selectedProduct.id,
-              name: selectedProduct.name,
-              price: selectedProduct.price,
-              quantity,
-              options,
-            });
-            setDialogOpen(false);
-            toast.success(`${selectedProduct.name} added to cart`);
-          }}
-        />
-      )} */}
     </div>
   );
 };
