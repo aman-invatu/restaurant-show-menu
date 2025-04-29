@@ -35,7 +35,7 @@ const CheckoutForm: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
         <div className="md:col-span-2">
           <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md">
             <div className="mb-8">
@@ -167,45 +167,47 @@ const CheckoutForm: React.FC = () => {
           </form>
         </div>
         
-        <div className="bg-white rounded-lg shadow-md">
-          <div className="bg-[#2A2A2A] text-white p-4 rounded-t-lg">
-            <h2 className="text-xl">You order</h2>
-          </div>
-          <div className="p-4">
-            {items.map((item) => (
-              <div key={item.id} className="flex justify-between items-start py-3 border-b">
-                <div>
-                  <h3 className="font-medium">{item.name}</h3>
-                  <p className="text-gray-500 text-sm">Normal (200g)</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-medium">${item.price.toFixed(2)}</p>
-                  <div className="flex space-x-3 mt-2 justify-end">
-                    <button className="text-gray-400 hover:text-gray-600">
-                      <FaPencilAlt size={14} />
-                    </button>
-                    <button className="text-gray-400 hover:text-gray-600">
-                      <FaTimes size={14} />
-                    </button>
+        <div className="relative">
+          <div className="sticky top-4 bg-white rounded-lg shadow-md">
+            <div className="bg-[#2A2A2A] text-white p-4 rounded-t-lg">
+              <h2 className="text-xl">You order</h2>
+            </div>
+            <div className="p-4">
+              {items.map((item) => (
+                <div key={item.id} className="flex justify-between items-start py-3 border-b">
+                  <div>
+                    <h3 className="font-medium">{item.name}</h3>
+                    <p className="text-gray-500 text-sm">Normal (200g)</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium">${item.price.toFixed(2)}</p>
+                    <div className="flex space-x-3 mt-2 justify-end">
+                      <button className="text-gray-400 hover:text-gray-600">
+                        <FaPencilAlt size={14} />
+                      </button>
+                      <button className="text-gray-400 hover:text-gray-600">
+                        <FaTimes size={14} />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-            
-            <div className="mt-6 space-y-2">
-              <div className="flex justify-between text-gray-600">
-                <span>Order total:</span>
-                <span>${totalPrice.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-gray-600">
-                <span>Delivery:</span>
-                <span>${deliveryFee.toFixed(2)}</span>
-              </div>
+              ))}
               
-              <div className="pt-4 border-t mt-4">
-                <div className="flex justify-between font-medium text-lg">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
+              <div className="mt-6 space-y-2">
+                <div className="flex justify-between text-gray-600">
+                  <span>Order total:</span>
+                  <span>${totalPrice.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
+                  <span>Delivery:</span>
+                  <span>${deliveryFee.toFixed(2)}</span>
+                </div>
+                
+                <div className="pt-4 border-t mt-4">
+                  <div className="flex justify-between font-medium text-lg">
+                    <span>Total:</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
             </div>
