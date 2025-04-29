@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, ChevronDown } from 'lucide-react';
-import Logo from '../Logo';
+import Logo from './Logo';
 import { useCart } from '@/context/CartContext';
-import CartDropdown from '../cart/CartDropdown';
+import CartDropdown from '../cart/CartSideDrawer';
 
 interface NavItem {
   title: string;

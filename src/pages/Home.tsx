@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Navbar from '../components/layout/Navbar';
-import Footer from '../components/Footer';
+import Footer from '../components/layout/Footer';
 import CategorySection from '../components/categories/CategorySection';
 import ProductCard from '../components/products/ProductCard';
 

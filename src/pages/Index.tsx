@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import CategorySection from '../components/CategorySection';
-import ProductCard from '../components/ProductCard';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
+import CategorySection from '../components/categories/CategorySection';
+import ProductCard from '../components/products/ProductCard';
 
 const Index: React.FC = () => {
   const burgerImage = "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80";
@@ -202,9 +202,9 @@ const Index: React.FC = () => {
       <Navbar />
       
       <main className="flex-1">
-        <div className="bg-gray-100 py-8 text-center">
-          <h1 className="text-5xl mb-4">Menu Grid</h1>
-          <p className="text-xl text-gray-500">Some informations about our restaurant</p>
+        <div className="bg-gray-50 py-14 text-center">
+          <h1 className="text-4xl font-thin tracking-[.15em] mb-4 text-gray-800">Menu Grid</h1>
+          <p className="text-1xl text-gray-400 font-extralight tracking-[.15em]">Some informations about our restaurant</p>
         </div>
         
         <div className="container mx-auto px-6 py-12">

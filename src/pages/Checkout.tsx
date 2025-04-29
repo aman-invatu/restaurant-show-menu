@@ -1,8 +1,8 @@
 
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import CheckoutForm from '../components/CheckoutForm';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
+import CheckoutForm from '../components/checkout/CheckoutForm';
 
 const Checkout: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../context/CartContext';
 import { useToast } from '@/hooks/use-toast';
 
 const CheckoutForm: React.FC = () => {

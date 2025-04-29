@@ -33,6 +33,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
   const [size, setSize] = useState<'normal' | 'double'>('normal');
   const [note, setNote] = useState('');
   const [selectedAdditions, setSelectedAdditions] = useState<string[]>([]);
+  const [activeSection, setActiveSection] = useState<'size' | 'additions' | 'other' | null>('size');
   
   const additions: Addition[] = [
     { name: 'Chicken', price: 2.00 },
@@ -64,6 +65,10 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
     );
   };
 
+  const handleSectionClick = (section: 'size' | 'additions' | 'other') => {
+    setActiveSection(activeSection === section ? null : section);
+  };
+
   const handleAddToCart = () => {
     addItem({
       id: product.id,
@@ -85,135 +90,164 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="p-0 max-w-3xl overflow-hidden">
+      <DialogContent className="p-0 max-w-lg overflow-hidden bg-white">
         <div className="relative">
           {/* Header with image */}
-          <div className="h-48 bg-gray-700 bg-opacity-75 relative flex items-center justify-center">
+          <div className="h-48 bg-gray-800 relative flex items-center justify-center">
             <div 
               className="absolute inset-0 bg-cover bg-center opacity-50" 
               style={{ backgroundImage: `url(${product.imageUrl})` }}
             />
             <div className="relative z-10 text-white text-center">
-              <h2 className="text-3xl font-light mb-2">Specify your dish</h2>
+              <h2 className="text-3xl font-light">Specify your dish</h2>
             </div>
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 text-white z-20 p-1"
+              className="absolute top-4 right-4 text-white z-20"
             >
               <X size={24} />
             </button>
           </div>
           
           {/* Product details */}
-          <div className="bg-gray-50 p-6">
-            <div className="mb-8">
-              <h3 className="text-xl font-medium">{product.name}</h3>
-              <p className="text-gray-500">{product.description}</p>
+          <div className="bg-white px-6 pt-6">
+            <div className="mb-6">
+              <h3 className="text-xl">{product.name}</h3>
+              <p className="text-gray-500 text-sm">{product.description}</p>
               <div className="text-right">
                 <span className="text-xl">${totalPrice.toFixed(2)}</span>
               </div>
             </div>
             
             {/* Size selection */}
-            <div className="mb-6 border-b pb-6">
-              <div className="flex items-center mb-4">
-                <div className="w-6 h-6 border border-amber-500 rounded-full flex items-center justify-center mr-4">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+            <div className="mb-4">
+              <div className="flex items-center">
+                <div className={`w-6 h-6 border-2 rounded-full flex items-center justify-center mr-3 transition-colors duration-200 ${activeSection === 'size' ? 'border-amber-500' : 'border-gray-300'}`}>
+                  <div className={`w-3 h-3 rounded-full transition-all duration-200 ${activeSection === 'size' ? 'bg-amber-500 scale-100' : 'bg-transparent scale-0'}`}></div>
                 </div>
-                <h4 className="text-lg">Size</h4>
+                <button 
+                  className="flex-1 flex items-center justify-between py-2"
+                  onClick={() => handleSectionClick('size')}
+                >
+                  <span className="text-base">Size</span>
+                  <span className={`transform transition-transform duration-200 ${activeSection === 'size' ? 'rotate-180' : ''}`}>▼</span>
+                </button>
               </div>
               
-              <RadioGroup 
-                value={size} 
-                onValueChange={(value) => setSize(value as 'normal' | 'double')}
-                className="space-y-2 ml-10"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="normal" id="size-normal" />
-                    <label htmlFor="size-normal">Normal - 200g</label>
-                  </div>
-                  <span>($9.00)</span>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeSection === 'size' ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="pl-9">
+                  <RadioGroup 
+                    value={size} 
+                    onValueChange={(value) => setSize(value as 'normal' | 'double')}
+                    className="space-y-3 py-4"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="relative">
+                          <RadioGroupItem 
+                            value="normal" 
+                            id="size-normal"
+                            className="border-amber-500 text-amber-500 focus:ring-amber-500"
+                          />
+                        </div>
+                        <label htmlFor="size-normal" className="text-sm">Normal - 200g</label>
+                      </div>
+                      <span className="text-sm">($9.00)</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="relative">
+                          <RadioGroupItem 
+                            value="double" 
+                            id="size-double"
+                            className="border-amber-500 text-amber-500 focus:ring-amber-500"
+                          />
+                        </div>
+                        <label htmlFor="size-double" className="text-sm">Double - 400g</label>
+                      </div>
+                      <span className="text-sm">($12.00)</span>
+                    </div>
+                  </RadioGroup>
                 </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="double" id="size-double" />
-                    <label htmlFor="size-double">Double - 400g</label>
-                  </div>
-                  <span>($12.00)</span>
-                </div>
-              </RadioGroup>
+              </div>
             </div>
             
             {/* Additions */}
-            <div className="mb-6 border-b pb-6">
-              <div className="flex items-center mb-4">
-                <div className="w-6 h-6 border border-amber-500 rounded-full flex items-center justify-center mr-4">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+            <div className="mb-4">
+              <div className="flex items-center">
+                <div className={`w-6 h-6 border-2 rounded-full flex items-center justify-center mr-3 transition-colors duration-200 ${activeSection === 'additions' ? 'border-amber-500' : 'border-gray-300'}`}>
+                  <div className={`w-3 h-3 rounded-full transition-all duration-200 ${activeSection === 'additions' ? 'bg-amber-500 scale-100' : 'bg-transparent scale-0'}`}></div>
                 </div>
-                <h4 className="text-lg">Additions</h4>
+                <button 
+                  className="flex-1 flex items-center justify-between py-2"
+                  onClick={() => handleSectionClick('additions')}
+                >
+                  <span className="text-base">Additions</span>
+                  <span className={`transform transition-transform duration-200 ${activeSection === 'additions' ? 'rotate-180' : ''}`}>▼</span>
+                </button>
               </div>
               
-              <div className="grid grid-cols-2 gap-2 ml-10">
-                {additions.slice(0, 5).map((addition) => (
-                  <div key={addition.name} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox 
-                        id={`addition-${addition.name}`} 
-                        checked={selectedAdditions.includes(addition.name)}
-                        onCheckedChange={() => handleAddition(addition.name)}
-                      />
-                      <label htmlFor={`addition-${addition.name}`}>
-                        {addition.name}
-                      </label>
-                    </div>
-                    <span>(${addition.price.toFixed(2)})</span>
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeSection === 'additions' ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="pl-9">
+                  <div className="grid grid-cols-2 gap-y-3 py-4">
+                    {additions.map((addition) => (
+                      <div key={addition.name} className="flex items-center justify-between pr-4">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox 
+                            id={`addition-${addition.name}`} 
+                            checked={selectedAdditions.includes(addition.name)}
+                            onCheckedChange={() => handleAddition(addition.name)}
+                            className="border-amber-500 text-amber-500 focus:ring-amber-500 rounded-sm"
+                          />
+                          <label htmlFor={`addition-${addition.name}`} className="text-sm">
+                            {addition.name}
+                          </label>
+                        </div>
+                        <span className="text-sm">(${addition.price.toFixed(2)})</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                
-                {additions.slice(5).map((addition) => (
-                  <div key={addition.name} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox 
-                        id={`addition-${addition.name}`} 
-                        checked={selectedAdditions.includes(addition.name)}
-                        onCheckedChange={() => handleAddition(addition.name)}
-                      />
-                      <label htmlFor={`addition-${addition.name}`}>
-                        {addition.name}
-                      </label>
-                    </div>
-                    <span>(${addition.price.toFixed(2)})</span>
-                  </div>
-                ))}
+                </div>
               </div>
             </div>
             
             {/* Other notes */}
-            <div className="mb-6">
-              <div className="flex items-center mb-4">
-                <div className="w-6 h-6 border border-amber-500 rounded-full flex items-center justify-center mr-4">
-                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+            <div className="mb-4">
+              <div className="flex items-center">
+                <div className={`w-6 h-6 border-2 rounded-full flex items-center justify-center mr-3 transition-colors duration-200 ${activeSection === 'other' ? 'border-amber-500' : 'border-gray-300'}`}>
+                  <div className={`w-3 h-3 rounded-full transition-all duration-200 ${activeSection === 'other' ? 'bg-amber-500 scale-100' : 'bg-transparent scale-0'}`}></div>
                 </div>
-                <h4 className="text-lg">Other</h4>
+                <button 
+                  className="flex-1 flex items-center justify-between py-2"
+                  onClick={() => handleSectionClick('other')}
+                >
+                  <span className="text-base">Other</span>
+                  <span className={`transform transition-transform duration-200 ${activeSection === 'other' ? 'rotate-180' : ''}`}>▼</span>
+                </button>
               </div>
               
-              <textarea 
-                className="w-full border rounded-md p-4 resize-none"
-                rows={4}
-                placeholder="Put this any other informations..."
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
+              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${activeSection === 'other' ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="pl-9">
+                  <div className="py-4">
+                    <textarea 
+                      className="w-full border p-3 resize-none text-sm"
+                      rows={4}
+                      placeholder="Put this any other informations..."
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
           {/* Footer with button */}
-          <div className="bg-gray-900 text-white py-5 px-6">
+          <div className="bg-gray-900 text-white py-4">
             <button 
               onClick={handleAddToCart}
-              className="w-full text-center font-medium text-lg"
+              className="w-full text-center font-medium text-base uppercase"
             >
               ADD TO CART
             </button>
