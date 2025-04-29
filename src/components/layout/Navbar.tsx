@@ -34,10 +34,10 @@ const navItems: NavItem[] = [
   },
   { 
     title: 'MENU',
-    link: '/menu',
+    link: '/menu-list',
     hasDropdown: true,
     dropdownItems: [
-      { title: 'LIST', link: '/menu#burgers' },
+      { title: 'LIST', link: '/menu-list' },
       { title: 'GRID', link: '/menu#pizza' },
     ]
   },
